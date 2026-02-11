@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limpiar Sesión - Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0F0C29 0%, #302B63 50%, #24243E 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #00D9FF 0%, #0A7AFF 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00D9FF 0%, #0A7AFF 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 217, 255, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 217, 255, 0.5);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            display: none;
+        }
+
+        .success.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+        }
+
+        .info {
+            background: rgba(255, 184, 0, 0.1);
+            border: 1px solid rgba(255, 184, 0, 0.3);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="icon">🔄</div>
+        <h1>Limpiar Sesión</h1>
+        <p>Esta herramienta limpiará todos los datos guardados en el navegador (sesión de usuario, dispositivos
+            guardados, etc.) y te permitirá empezar desde cero.</p>
+
+        <div class="info">
+            ⚠️ <strong>Nota:</strong> Esto eliminará tu sesión actual y tendrás que iniciar sesión nuevamente.
+        </div>
+
+        <button class="btn" onclick="clearSession()">
+            🗑️ Limpiar Todo y Reiniciar
+        </button>
+
+        <div class="success" id="success">
+            <div style="font-size: 48px; margin-bottom: 10px;">✅</div>
+            <h3 style="margin-bottom: 10px;">¡Sesión Limpiada!</h3>
+            <p style="margin: 0;">Todos los datos han sido eliminados. Serás redirigido al login en <span
+                    id="countdown">3</span> segundos...</p>
+        </div>
+    </div>
+
+    <script>
+        function clearSession() {
+            // Limpiar todo el localStorage
+            localStorage.clear();
+
+            // Mostrar mensaje de éxito
+            document.getElementById('success').classList.add('show');
+
+            // Countdown y redirección
+            let count = 3;
+            const countdownEl = document.getElementById('countdown');
+
+            const interval = setInterval(() => {
+                count--;
+                countdownEl.textContent = count;
+
+                if (count === 0) {
+                    clearInterval(interval);
+                    // Redirigir al dashboard (que automáticamente redirigirá al login)
+                    window.location.href = 'http://localhost:3000';
+                }
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
